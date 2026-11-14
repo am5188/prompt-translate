@@ -50,21 +50,18 @@ for d in ~/.claude/skills ~/.codex/skills ~/.agents/skills ~/.gemini/skills ~/.c
 
 ### 方式二：只装自己用的客户端
 
+下面这条命令只装到 **Claude Code**。用其他客户端，把命令里的 `~/.claude/skills` 换成表格中对应目录即可：
+
 ```bash
-URL=https://raw.githubusercontent.com/am5188/prompt-translate/main/SKILL.md
-
-# Claude Code
-mkdir -p ~/.claude/skills/prompt-translate && curl -fsSL -o ~/.claude/skills/prompt-translate/SKILL.md $URL
-
-# Codex CLI
-mkdir -p ~/.codex/skills/prompt-translate && curl -fsSL -o ~/.codex/skills/prompt-translate/SKILL.md $URL
-
-# Gemini CLI
-mkdir -p ~/.gemini/skills/prompt-translate && curl -fsSL -o ~/.gemini/skills/prompt-translate/SKILL.md $URL
-
-# Cursor
-mkdir -p ~/.cursor/skills/prompt-translate && curl -fsSL -o ~/.cursor/skills/prompt-translate/SKILL.md $URL
+mkdir -p ~/.claude/skills/prompt-translate && curl -fsSL -o ~/.claude/skills/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/SKILL.md
 ```
+
+| 客户端 | 把 `~/.claude/skills` 换成 |
+|---|---|
+| Codex CLI | `~/.codex/skills` |
+| Cursor | `~/.cursor/skills` |
+| Gemini CLI | `~/.gemini/skills` |
+| Hermes | `~/.hermes/skills/productivity` |
 
 ### 方式三：Windows / 手动
 
