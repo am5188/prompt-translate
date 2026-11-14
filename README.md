@@ -40,17 +40,21 @@
 
 ## 安装
 
-```bash
-npx -y skills add am5188/prompt-translate
+**方式一：让 AI 帮你装（推荐）**
+
+把下面这句话直接发给你的 AI 客户端（Claude Code / Codex / Cursor / Trae……），它会自动完成安装：
+
+```
+帮我安装 prompt-translate：https://raw.githubusercontent.com/am5188/prompt-translate/main/INSTALL.md
 ```
 
-就这一条命令。自动检测你电脑上的 AI 客户端并安装到对应目录；装到全局（所有项目可用）：
+**方式二：手动一条命令**
 
 ```bash
 npx -y skills add am5188/prompt-translate -g
 ```
 
-升级：`npx skills update`（需要 Node.js 22.20+）。
+需要 Node.js 22.20+。升级：`npx skills update`。
 
 <details>
 <summary>其他安装方式（没有 Node.js / Windows / 手动）</summary>
