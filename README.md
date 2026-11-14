@@ -7,6 +7,13 @@
 
 很多人跟 AI 客户端（Claude Code、Codex、Cursor……）沟通时说不清自己的需求——目标含糊、约束漏讲、验收标准没有，结果 AI 做出来的东西跑偏，来回返工。本 skill 解决的就是这个：你说人话，它给你一份能直接用的 Prompt。
 
+## 核心行为
+
+- **只翻译不执行**：产出 prompt 文本，不代做任务
+- **中文进中文出**；最多一轮澄清（1-3 问），问不到就写"暂定假设"——**绝不编造**
+- **清晰需求原样直通**：已经写好的 prompt 不会被乱改
+- **一份文件通吃** Claude Code / Codex / Cursor / Gemini CLI / Hermes 等主流客户端
+
 ## 效果预览
 
 **输入**（人话）：
@@ -108,6 +115,8 @@ mkdir -p ~/.hermes/skills/productivity/prompt-translate && curl -fsSL -o ~/.herm
 - "帮我把这个需求翻译成 prompt：<需求>"
 - "整理成 prompt：<需求>，给 Claude Code 用"
 - "我想做个小工具，但不知道怎么描述，帮我写成 prompt"
+
+不知道怎么开口？直接说"试试看"或"怎么用"，会先带你走一遍。
 
 ## 客户端兼容性
 

@@ -7,6 +7,7 @@
 - 检查是否已安装至少一个支持 skills 的 AI 客户端（如 `which claude`、`which codex`、`which gemini`）。
 - 若一个都没有，先执行：`npm i -g @anthropic-ai/claude-code`（或 `npm i -g @openai/codex`）。
 - 检查 Node.js：`node --version`。有 Node.js 22.20+ 走步骤 1 方式一；没有走方式二。
+- Windows 同样适用（PowerShell 自带 curl.exe，npx 在 Windows 可用）。
 
 ## 步骤 1：安装
 
@@ -34,18 +35,11 @@ ls ~/.claude/skills/prompt-translate/SKILL.md ~/.codex/skills/prompt-translate/S
 
 若方式一安装到了项目的 `.agents/skills/prompt-translate/SKILL.md`，同样视为成功。
 
-## 步骤 3：引导第一次使用
+## 步骤 3：完成并引导第一次使用
 
-安装完成后，用一两句话告诉用户装好了，并给出一个可直接复制发送的示例指令，引导用户完成第一次使用。例如回复：
+安装完成后，用一两句话告诉用户装好了（部分客户端需重开会话才能识别新 skill），并给出可直接复制发送的示例指令，引导用户完成第一次使用。例如回复：
 
 > 安装完成 ✓ 现在可以这样用——把你含糊的需求发给我，我还你一份可直接粘贴给 AI 客户端执行的 prompt。试试这句：
 > 帮我翻译成 prompt：我想做个每天自动检查网站还活没活着的工具，挂了发消息提醒我
 
-## 步骤 4：完成
-
-安装完成，无需重启即可使用（部分客户端需重开会话）。用户之后直接说：
-
-- "帮我把这个需求翻译成 prompt：<需求>"
-- "整理成 prompt：<需求>，给 Claude Code 用"
-
-更新方式：`npx skills update`，或重跑步骤 1 的安装命令。
+后续用户直接说"帮我把这个需求翻译成 prompt：<需求>"即可；更新方式：`npx skills update`，或重跑步骤 1 的安装命令。

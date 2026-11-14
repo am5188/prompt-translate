@@ -1,6 +1,6 @@
 # prompt-translate 调研报告
 
-日期：2026-11-14 ｜ 调研方式：4 路并行（GitHub / arXiv / 权威文章 / HuggingFace）｜ 结论已吸收进 skill v1.2.0
+日期：2026-11-14 ｜ 调研方式：4 路并行（GitHub / arXiv / 权威文章 / HuggingFace）｜ 结论已吸收进 skill（v1.2.0+）
 
 ## 结论摘要
 
@@ -87,7 +87,7 @@
 
 反方证据成立但暂不适用：BPO（[zai-org/BPO](https://huggingface.co/zai-org/BPO)）证明窄任务+固定格式+自有数据时专用小模型可超过 PPO/DPO 对齐。**重新评估的触发条件**：真实"模糊需求→成品 prompt"配对数据 ≥1-2k 条 + 调用量能摊平 GPU 常驻成本 + 可跑盲测。届时用自己的数据微调 Qwen3.5-2B/4B。
 
-## 五、最终采纳清单（已写入 skill v1.2.0）
+## 五、最终采纳清单（已写入 skill）
 
 - **输出契约前置**：只产出文本 / 只输出一个代码块 / 不添加用户未提及的需求（移到 skill 最顶部）
 - **门禁判定 + UNCHANGED**：清晰 prompt 原样返回，把"不改"当一等公民
