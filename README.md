@@ -1,49 +1,78 @@
 # prompt-translate
 
-把模糊、口语化、不完整的自然语言需求"翻译"成可复制粘贴给任何 AI 客户端执行的结构化 Prompt。
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/am5188/prompt-translate)](https://github.com/am5188/prompt-translate/stargazers)
 
-单文件 skill，零依赖，遵循 [Agent Skills 开放标准](https://agentskills.io)（`SKILL.md` + `name`/`description` frontmatter）。翻译工作由 harness 客户端自己的模型完成，不调独立 API。
+把模糊、口语化的中文需求，翻译成可复制粘贴给任何 AI 客户端执行的**结构化 Prompt**。
 
-## 特性
+很多人跟 AI 客户端（Claude Code、Codex、Cursor……）沟通时说不清自己的需求——目标含糊、约束漏讲、验收标准没有，结果 AI 做出来的东西跑偏，来回返工。本 skill 解决的就是这个：你说人话，它给你一份能直接用的 Prompt。
 
-- **只翻译不执行**：产出 Prompt 文本，不代做任务
-- 中文进中文出（输入其他语言则跟随）
-- 最多 1 轮澄清、每轮 1-3 个问题（只问影响方向的信息，熵达标即止）
-- 按任务类型补全要点（编程/排查/写作/分析/数据处理）
-- 输出单个代码块，复制即用；拿不准的信息标注"暂定假设"，不编造
-- 可指明目标客户端，生成符合其习惯的执行要求
+## 效果预览
 
-## 跨客户端支持
+**输入**（人话）：
 
-同一份 `SKILL.md` 适用于所有遵循 Agent Skills 标准的主流客户端：
+> 我想做个东西，就是每天自动检查网站还活没活着，挂了给我发消息提醒我
 
-| 客户端 | 安装目录 | 调用方式 |
-|---|---|---|
-| Hermes | `~/.hermes/skills/productivity/prompt-translate/` | 说"把需求翻译成 prompt"自动触发 |
-| Claude Code | `~/.claude/skills/prompt-translate/` | `/prompt-translate` 或自动触发 |
-| Codex CLI | `~/.codex/skills/`（旧版）或 `~/.agents/skills/`（新版） | `$prompt-translate` 或自动触发 |
-| Gemini CLI | `~/.gemini/skills/`（`.agents/skills` 为别名） | 自动触发 |
-| Cursor | `~/.cursor/skills/` 或 `~/.agents/skills/`；**同时兼容读取 `~/.claude/skills/` 和 `~/.codex/skills/`** | `/prompt-translate` 或自动触发 |
-| ChatGPT 桌面版 | 与 Codex skills 目录共用 | `@prompt-translate` |
-| Trae / OpenClaw 等 | 同名 `SKILL.md`（`name`/`description`）格式 | 自动触发 |
+**输出**（复制即用）：
 
-格式兼容要点（已按官方文档验证）：`name` 为小写 kebab-case 且与目录名一致（Cursor 硬性要求）；`description` 单行、含"做什么+何时用"（Gemini CLI 要求 frontmatter 是文件第一段且 description 单行）；frontmatter 仅含通用字段，无平台专属字段。
+```text
+# 网站存活监控与告警通知工具
 
-### 安装
+## 任务目标
+实现一个定时任务：每天自动检查一组网站的存活状态，发现网站无法访问时通过消息推送提醒我。
 
-```bash
-# 本机一键安装到所有客户端目录（幂等）
-./install.sh
+## 约束条件
+- 只做存活检查，不做内容篡改检测、性能监控等额外功能
+- 正常运行时不打扰；异常时通知包含网站地址和失败原因
 
-# 查看各目录安装状态
-./install.sh --list
+## 输出格式
+可运行的代码 + 运行说明（依赖安装、网站列表配置、定时设置）
 
-# 或手动复制到指定客户端
-mkdir -p ~/.claude/skills/prompt-translate
-cp SKILL.md ~/.claude/skills/prompt-translate/
+## 验收标准
+- 手动关停一个测试网站后，下一次检查能触发通知
+- 全部网站正常时静默完成，有日志可查
+
+## 暂定假设
+- 通知渠道：Telegram Bot　部署环境：Linux + Python
 ```
 
-## 用法
+关键信息缺失时会先反问 1-3 个问题（只问影响方向的那种），或者写进"暂定假设"——**绝不编造**。已经写得很清晰的 prompt 原样返回，不会乱改。
+
+## 安装
+
+### 方式一：一行命令（推荐）
+
+Linux / macOS 打开终端，粘贴这一行，自动装到 Claude Code、Codex CLI、Cursor、Gemini CLI 全部目录：
+
+```bash
+for d in ~/.claude/skills ~/.codex/skills ~/.agents/skills ~/.gemini/skills ~/.cursor/skills; do mkdir -p "$d/prompt-translate"; curl -fsSL -o "$d/prompt-translate/SKILL.md" https://raw.githubusercontent.com/am5188/prompt-translate/main/SKILL.md; done
+```
+
+### 方式二：只装自己用的客户端
+
+```bash
+URL=https://raw.githubusercontent.com/am5188/prompt-translate/main/SKILL.md
+
+# Claude Code
+mkdir -p ~/.claude/skills/prompt-translate && curl -fsSL -o ~/.claude/skills/prompt-translate/SKILL.md $URL
+
+# Codex CLI
+mkdir -p ~/.codex/skills/prompt-translate && curl -fsSL -o ~/.codex/skills/prompt-translate/SKILL.md $URL
+
+# Gemini CLI
+mkdir -p ~/.gemini/skills/prompt-translate && curl -fsSL -o ~/.gemini/skills/prompt-translate/SKILL.md $URL
+
+# Cursor
+mkdir -p ~/.cursor/skills/prompt-translate && curl -fsSL -o ~/.cursor/skills/prompt-translate/SKILL.md $URL
+```
+
+### 方式三：Windows / 手动
+
+下载仓库里的 `prompt-translate-v*.zip`，解压后双击 `install.bat`；或手动把 `SKILL.md` 复制到对应目录（见下方兼容性表）。
+
+**升级**：重跑同一条安装命令即可，内容自动覆盖为最新版。
+
+## 使用
 
 在任意客户端里说：
 
@@ -51,49 +80,32 @@ cp SKILL.md ~/.claude/skills/prompt-translate/
 - "整理成 prompt：<需求>，给 Claude Code 用"
 - "我想做个小工具，但不知道怎么描述，帮我写成 prompt"
 
-## 分享给别人
+## 客户端兼容性
 
-对方只需要两样东西：**一个支持 skills 的客户端 + 本 skill 的 `SKILL.md`（一个文件）**。零依赖、零 API——翻译用对方客户端自己的模型跑。
+同一份 `SKILL.md` 遵循 [Agent Skills 开放标准](https://agentskills.io)，适用于所有主流客户端：
 
-三种方式（按维护成本从低到高）：
+| 客户端 | 安装目录 | 调用方式 |
+|---|---|---|
+| Claude Code | `~/.claude/skills/prompt-translate/` | `/prompt-translate` 或自动触发 |
+| Codex CLI | `~/.codex/skills/`（旧版）或 `~/.agents/skills/`（新版） | `$prompt-translate` 或自动触发 |
+| Gemini CLI | `~/.gemini/skills/` | 自动触发 |
+| Cursor | `~/.cursor/skills/`（同时兼容读取 `.claude/skills`、`.codex/skills`） | `/prompt-translate` 或自动触发 |
+| Hermes | `~/.hermes/skills/productivity/prompt-translate/` | 说"翻译成 prompt"自动触发 |
+| ChatGPT 桌面版 | 与 Codex skills 目录共用 | `@prompt-translate` |
+| Trae / OpenClaw 等 | 同名 `SKILL.md`（`name`/`description`）格式 | 自动触发 |
 
-**A. 发文件包（一次性分享）**
-把 `prompt-translate-v*.zip` 发给对方，解压后：
+两个前提：
 
-- Linux/macOS：终端执行 `./install.sh`
-- Windows：双击 `install.bat`
-- 或手动复制 `SKILL.md` 到目标目录（见上方兼容矩阵）
+1. 需要安装至少一个支持 skills 的客户端，没有就装：`npm i -g @anthropic-ai/claude-code` 或 `npm i -g @openai/codex`
+2. 客户端用的模型需要懂中文（主流模型均可）
 
-**B. GitHub 仓库（推荐，可更新）**
-仓库：https://github.com/am5188/prompt-translate
+## 设计与调研
 
-对方在终端执行**一行命令**即可装到全部主流客户端（Linux/macOS）：
+本 skill 的设计基于四路调研（GitHub 现成方案、12 篇 arXiv 论文、Anthropic/OpenAI/Google/Brex 官方指南、HuggingFace 专用模型评估），完整证据与来源见 [research.md](research.md)。核心结论：
 
-```bash
-for d in ~/.claude/skills ~/.codex/skills ~/.agents/skills ~/.gemini/skills ~/.cursor/skills; do mkdir -p "$d/prompt-translate"; curl -fsSL -o "$d/prompt-translate/SKILL.md" https://raw.githubusercontent.com/am5188/prompt-translate/main/SKILL.md; done
-```
+- 模糊→精确的改写是提升 AI 执行质量最可靠的手段（实证平均 +15%~31%）
+- 无"神奇咒语"：人设、情绪勒索、"一步步思考"默认不加，约束控制在 5-7 条
+- 验收标准必须可验证，交付前逐条自检
+- 用 harness 自带模型即可，专用小模型（HF 上全是玩具级）不值得引入
 
-只装某一个客户端（以 Claude Code 为例）：
-
-```bash
-mkdir -p ~/.claude/skills/prompt-translate && curl -fsSL -o ~/.claude/skills/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/SKILL.md
-```
-
-升级：重跑同一命令即可。Windows 用户用 A 方案（zip 内 `install.bat`）。
-
-**C. 客户端市场（给大团队才值得）**
-Cursor 团队市场 / Claude 插件市场可分发，但需要插件打包与市场发布，日常分享用 A/B 即可。
-
-对方还没有客户端时：装 Claude Code（`npm i -g @anthropic-ai/claude-code`）或 Codex CLI（`npm i -g @openai/codex`），两者都免费安装、原生支持 skills。
-
-注意：skill 面向中文用户（中文进中文出），对方客户端的模型需懂中文（主流模型均可）。
-
-## 方法论来源
-
-调研报告（含 GitHub/arXiv/文章/HuggingFace 四路完整证据与来源链接）：见 [research.md](research.md)。
-
-借鉴了以下开源技能（未逐字复制，仅吸收方法）：
-
-- `Jupiter363/universal-prompt-optimizer-skill`（MIT）：追问澄清 + 熵止步 + 标准化结构
-- `ZHN123456cn/intent-to-prompt`：只生成不执行、单代码块输出契约
-- `JiuNian3219/intent-to-prompt-skill`：意图挖掘维度与澄清分级
+MIT License。
