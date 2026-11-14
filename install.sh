@@ -6,7 +6,7 @@
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SRC="$HERE/SKILL.md"
+SRC="$HERE/skills/prompt-translate/SKILL.md"
 
 # 各客户端 skills 目录（不存在的目录会自动创建；客户端未安装时复制进去也无害）
 TARGETS=(

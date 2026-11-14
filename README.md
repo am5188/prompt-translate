@@ -40,34 +40,73 @@
 
 ## 安装
 
-### 方式一：一行命令（推荐）
-
-Linux / macOS 打开终端，粘贴这一行，自动装到 Claude Code、Codex CLI、Cursor、Gemini CLI 全部目录：
+### 方式一：标准安装器（推荐）
 
 ```bash
-for d in ~/.claude/skills ~/.codex/skills ~/.agents/skills ~/.gemini/skills ~/.cursor/skills; do mkdir -p "$d/prompt-translate"; curl -fsSL -o "$d/prompt-translate/SKILL.md" https://raw.githubusercontent.com/am5188/prompt-translate/main/SKILL.md; done
+npx -y skills add am5188/prompt-translate
 ```
 
-### 方式二：只装自己用的客户端
-
-下面这条命令只装到 **Claude Code**。用其他客户端，把命令里的 `~/.claude/skills` 换成表格中对应目录即可：
+需要 Node.js 22.20+。自动检测本机已装的客户端并安装（默认装到当前项目；全局安装加 `-g`）：
 
 ```bash
-mkdir -p ~/.claude/skills/prompt-translate && curl -fsSL -o ~/.claude/skills/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/SKILL.md
+npx -y skills add am5188/prompt-translate -g
 ```
 
-| 客户端 | 把 `~/.claude/skills` 换成 |
-|---|---|
-| Codex CLI | `~/.codex/skills` |
-| Cursor | `~/.cursor/skills` |
-| Gemini CLI | `~/.gemini/skills` |
-| Hermes | `~/.hermes/skills/productivity` |
+指定客户端（如只装到 Claude Code）：
 
-### 方式三：Windows / 手动
+```bash
+npx -y skills add am5188/prompt-translate -a claude-code
+```
 
-下载仓库里的 `prompt-translate-v*.zip`，解压后双击 `install.bat`；或手动把 `SKILL.md` 复制到对应目录（见下方兼容性表）。
+不想装可以先试：`npx -y skills use am5188/prompt-translate@prompt-translate`
 
-**升级**：重跑同一条安装命令即可，内容自动覆盖为最新版。
+升级：`npx skills update`
+
+### 方式二：零依赖一行命令（不需要 Node.js）
+
+Linux / macOS 终端粘贴这一行，自动装到 Claude Code、Codex CLI、Cursor、Gemini CLI 全部目录：
+
+```bash
+for d in ~/.claude/skills ~/.codex/skills ~/.agents/skills ~/.gemini/skills ~/.cursor/skills; do mkdir -p "$d/prompt-translate"; curl -fsSL -o "$d/prompt-translate/SKILL.md" https://raw.githubusercontent.com/am5188/prompt-translate/main/skills/prompt-translate/SKILL.md; done
+```
+
+### 方式三：按客户端逐条命令
+
+**Claude Code**
+
+```bash
+mkdir -p ~/.claude/skills/prompt-translate && curl -fsSL -o ~/.claude/skills/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/skills/prompt-translate/SKILL.md
+```
+
+**Codex CLI**
+
+```bash
+mkdir -p ~/.codex/skills/prompt-translate && curl -fsSL -o ~/.codex/skills/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/skills/prompt-translate/SKILL.md
+```
+
+**Cursor**
+
+```bash
+mkdir -p ~/.cursor/skills/prompt-translate && curl -fsSL -o ~/.cursor/skills/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/skills/prompt-translate/SKILL.md
+```
+
+**Gemini CLI**
+
+```bash
+mkdir -p ~/.gemini/skills/prompt-translate && curl -fsSL -o ~/.gemini/skills/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/skills/prompt-translate/SKILL.md
+```
+
+**Hermes**
+
+```bash
+mkdir -p ~/.hermes/skills/productivity/prompt-translate && curl -fsSL -o ~/.hermes/skills/productivity/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/skills/prompt-translate/SKILL.md
+```
+
+方式二、三的升级方式：重跑同一命令。
+
+### 方式四：Windows / 手动
+
+下载仓库里的 `prompt-translate-v*.zip`，解压后双击 `install.bat`；或手动把 `skills/prompt-translate/SKILL.md` 复制到对应目录（见下方兼容性表）。
 
 ## 使用
 

@@ -1,0 +1,7 @@
+# 调研原始素材（本地留存，不发布）
+.research-raw/
+
+# 技能安装器产物
+.agents/
+skills-lock.json
+node_modules/

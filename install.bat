@@ -2,7 +2,7 @@
 rem prompt-translate 跨 harness 安装脚本（Windows 版）
 rem 用法: 双击本文件，或 install.bat --list 查看状态
 setlocal enabledelayedexpansion
-set SRC=%~dp0SKILL.md
+set SRC=%~dp0skills\prompt-translate\SKILL.md
 
 if not exist "%SRC%" (
   echo 错误: 找不到 %SRC%
