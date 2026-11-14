@@ -65,13 +65,21 @@ cp SKILL.md ~/.claude/skills/prompt-translate/
 - 或手动复制 `SKILL.md` 到目标目录（见上方兼容矩阵）
 
 **B. GitHub 仓库（推荐，可更新）**
-把本仓库推到 GitHub 后，对方一条命令安装，之后每次更新重跑同一命令即升级：
+仓库：https://github.com/am5188/prompt-translate
+
+对方在终端执行**一行命令**即可装到全部主流客户端（Linux/macOS）：
 
 ```bash
-mkdir -p ~/.claude/skills/prompt-translate && curl -sSL -o ~/.claude/skills/prompt-translate/SKILL.md https://raw.githubusercontent.com/<你的账号>/prompt-translate/main/SKILL.md
+for d in ~/.claude/skills ~/.codex/skills ~/.agents/skills ~/.gemini/skills ~/.cursor/skills; do mkdir -p "$d/prompt-translate"; curl -fsSL -o "$d/prompt-translate/SKILL.md" https://raw.githubusercontent.com/am5188/prompt-translate/main/SKILL.md; done
 ```
 
-（给 Claude Code 用上面的路径；其他客户端把目标目录换成兼容矩阵里的对应目录即可）
+只装某一个客户端（以 Claude Code 为例）：
+
+```bash
+mkdir -p ~/.claude/skills/prompt-translate && curl -fsSL -o ~/.claude/skills/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/SKILL.md
+```
+
+升级：重跑同一命令即可。Windows 用户用 A 方案（zip 内 `install.bat`）。
 
 **C. 客户端市场（给大团队才值得）**
 Cursor 团队市场 / Claude 插件市场可分发，但需要插件打包与市场发布，日常分享用 A/B 即可。
