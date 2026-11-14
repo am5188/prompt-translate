@@ -51,6 +51,35 @@ cp SKILL.md ~/.claude/skills/prompt-translate/
 - "整理成 prompt：<需求>，给 Claude Code 用"
 - "我想做个小工具，但不知道怎么描述，帮我写成 prompt"
 
+## 分享给别人
+
+对方只需要两样东西：**一个支持 skills 的客户端 + 本 skill 的 `SKILL.md`（一个文件）**。零依赖、零 API——翻译用对方客户端自己的模型跑。
+
+三种方式（按维护成本从低到高）：
+
+**A. 发文件包（一次性分享）**
+把 `prompt-translate-v*.zip` 发给对方，解压后：
+
+- Linux/macOS：终端执行 `./install.sh`
+- Windows：双击 `install.bat`
+- 或手动复制 `SKILL.md` 到目标目录（见上方兼容矩阵）
+
+**B. GitHub 仓库（推荐，可更新）**
+把本仓库推到 GitHub 后，对方一条命令安装，之后每次更新重跑同一命令即升级：
+
+```bash
+mkdir -p ~/.claude/skills/prompt-translate && curl -sSL -o ~/.claude/skills/prompt-translate/SKILL.md https://raw.githubusercontent.com/<你的账号>/prompt-translate/main/SKILL.md
+```
+
+（给 Claude Code 用上面的路径；其他客户端把目标目录换成兼容矩阵里的对应目录即可）
+
+**C. 客户端市场（给大团队才值得）**
+Cursor 团队市场 / Claude 插件市场可分发，但需要插件打包与市场发布，日常分享用 A/B 即可。
+
+对方还没有客户端时：装 Claude Code（`npm i -g @anthropic-ai/claude-code`）或 Codex CLI（`npm i -g @openai/codex`），两者都免费安装、原生支持 skills。
+
+注意：skill 面向中文用户（中文进中文出），对方客户端的模型需懂中文（主流模型均可）。
+
 ## 方法论来源
 
 调研报告（含 GitHub/arXiv/文章/HuggingFace 四路完整证据与来源链接）：见 [research.md](research.md)。
