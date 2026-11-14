@@ -40,37 +40,28 @@
 
 ## 安装
 
-### 方式一：标准安装器（推荐）
-
 ```bash
 npx -y skills add am5188/prompt-translate
 ```
 
-需要 Node.js 22.20+。自动检测本机已装的客户端并安装（默认装到当前项目；全局安装加 `-g`）：
+就这一条命令。自动检测你电脑上的 AI 客户端并安装到对应目录；装到全局（所有项目可用）：
 
 ```bash
 npx -y skills add am5188/prompt-translate -g
 ```
 
-指定客户端（如只装到 Claude Code）：
+升级：`npx skills update`（需要 Node.js 22.20+）。
 
-```bash
-npx -y skills add am5188/prompt-translate -a claude-code
-```
+<details>
+<summary>其他安装方式（没有 Node.js / Windows / 手动）</summary>
 
-不想装可以先试：`npx -y skills use am5188/prompt-translate@prompt-translate`
-
-升级：`npx skills update`
-
-### 方式二：零依赖一行命令（不需要 Node.js）
-
-Linux / macOS 终端粘贴这一行，自动装到 Claude Code、Codex CLI、Cursor、Gemini CLI 全部目录：
+### 零依赖一行命令（不需要 Node.js）
 
 ```bash
 for d in ~/.claude/skills ~/.codex/skills ~/.agents/skills ~/.gemini/skills ~/.cursor/skills; do mkdir -p "$d/prompt-translate"; curl -fsSL -o "$d/prompt-translate/SKILL.md" https://raw.githubusercontent.com/am5188/prompt-translate/main/skills/prompt-translate/SKILL.md; done
 ```
 
-### 方式三：按客户端逐条命令
+### 按客户端逐条命令
 
 **Claude Code**
 
@@ -102,11 +93,13 @@ mkdir -p ~/.gemini/skills/prompt-translate && curl -fsSL -o ~/.gemini/skills/pro
 mkdir -p ~/.hermes/skills/productivity/prompt-translate && curl -fsSL -o ~/.hermes/skills/productivity/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/skills/prompt-translate/SKILL.md
 ```
 
-方式二、三的升级方式：重跑同一命令。
+升级：重跑同一命令。
 
-### 方式四：Windows / 手动
+### Windows / 手动
 
 下载仓库里的 `prompt-translate-v*.zip`，解压后双击 `install.bat`；或手动把 `skills/prompt-translate/SKILL.md` 复制到对应目录（见下方兼容性表）。
+
+</details>
 
 ## 使用
 
