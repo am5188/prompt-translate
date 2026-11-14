@@ -57,7 +57,7 @@ npx -y skills add am5188/prompt-translate -g
 需要 Node.js 22.20+。升级：`npx skills update`。
 
 <details>
-<summary>其他安装方式（没有 Node.js / Windows / 手动）</summary>
+<summary>其他安装方式（没有 Node.js / 手动）</summary>
 
 ### 零依赖一行命令（不需要 Node.js）
 
@@ -97,11 +97,7 @@ mkdir -p ~/.gemini/skills/prompt-translate && curl -fsSL -o ~/.gemini/skills/pro
 mkdir -p ~/.hermes/skills/productivity/prompt-translate && curl -fsSL -o ~/.hermes/skills/productivity/prompt-translate/SKILL.md https://raw.githubusercontent.com/am5188/prompt-translate/main/skills/prompt-translate/SKILL.md
 ```
 
-升级：重跑同一命令。
-
-### Windows / 手动
-
-下载仓库里的 `prompt-translate-v*.zip`，解压后双击 `install.bat`；或手动把 `skills/prompt-translate/SKILL.md` 复制到对应目录（见下方兼容性表）。
+升级：重跑同一命令。Windows 同样适用（PowerShell 自带 curl.exe）。
 
 </details>
 
