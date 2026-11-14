@@ -6,20 +6,28 @@
 
 - 检查是否已安装至少一个支持 skills 的 AI 客户端（如 `which claude`、`which codex`、`which gemini`）。
 - 若一个都没有，先执行：`npm i -g @anthropic-ai/claude-code`（或 `npm i -g @openai/codex`）。
-- 检查 Node.js：`node --version`。有 Node.js 22.20+ 走步骤 1 方式一；没有走方式二。
-- Windows 同样适用（PowerShell 自带 curl.exe，npx 在 Windows 可用）。
+- 检查 GitHub CLI：`gh --version`。2.90+ 且已登录 → 走步骤 1 方式一（最简）。
+- 否则检查 Node.js：`node --version`。22.20+ → 走方式二。
+- 都没有 → 走方式三（零依赖）。
+- Windows 同样适用（PowerShell 自带 curl.exe）。
 
 ## 步骤 1：安装
 
-**方式一（推荐，有 Node.js）**
+**方式一（推荐，有 GitHub CLI 2.90+）**
+
+```shell
+gh skill install am5188/prompt-translate prompt-translate --scope user
+```
+
+**方式二（有 Node.js 22.20+）**
 
 ```shell
 npx -y skills add am5188/prompt-translate -g
 ```
 
-命令会自动检测本机客户端并安装/链接到对应目录，无需其他操作。
+方式一、二都会自动检测本机客户端并安装/链接到对应目录，无需其他操作。
 
-**方式二（零依赖，无 Node.js）**
+**方式三（零依赖，都没有 gh 与 Node.js）**
 
 ```shell
 for d in ~/.claude/skills ~/.codex/skills ~/.agents/skills ~/.gemini/skills ~/.cursor/skills; do mkdir -p "$d/prompt-translate"; curl -fsSL -o "$d/prompt-translate/SKILL.md" https://raw.githubusercontent.com/am5188/prompt-translate/main/skills/prompt-translate/SKILL.md; done

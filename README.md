@@ -61,10 +61,16 @@
 npx -y skills add am5188/prompt-translate -g
 ```
 
-需要 Node.js 22.20+。升级：`npx skills update`。
+需要 Node.js 22.20+。有 GitHub CLI（2.90+）也可以：
+
+```bash
+gh skill install am5188/prompt-translate prompt-translate --scope user
+```
+
+升级：`npx skills update` / `gh skill update`。
 
 <details>
-<summary>其他安装方式（没有 Node.js / 手动）</summary>
+<summary>其他安装方式（没有 gh 与 Node.js / 手动）</summary>
 
 ### 零依赖一行命令（不需要 Node.js）
 
