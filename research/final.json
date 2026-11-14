@@ -1,0 +1,124 @@
+{
+  "repos": [
+    {
+      "full_name": "severity1/claude-code-prompt-improver",
+      "stars": 1969,
+      "license": "MIT",
+      "url": "https://github.com/severity1/claude-code-prompt-improver",
+      "techniques": [
+        "分级触发门禁：每次提交先用约 189 token 的评估判断是否真模糊，清晰 prompt 零开销直通；输入前加 * 可手动跳过评估，避免「每次都重写」的过度干预（README.md）",
+        "四阶段流程：Research（先查对话历史，再查代码库/文档）→ 生成问题 → 澄清 → 带着上下文执行，明确「NEVER skip research」（skills/prompt-improver/SKILL.md）",
+        "问题必须 grounded：每个选项都来自实际检索结果（文件路径、行号、文档），禁止「其他方案」这类空选项，选项要写清 trade-off（references/question-patterns.md）",
+        "问题数量按复杂度分级：简单歧义 1-2 个、中等 3-4 个、复杂 5-6 个；每题只对应一个决策点，选项 2-4 个，header 不超过 12 字符（SKILL.md、question-patterns.md）",
+        "声明式 nudge 注册表：一项能力就是一行 JSON（event/handler/priority），新增能力不改引擎代码（nudges/UserPromptSubmit/00-improve.json、scripts/engine.py）",
+        "效果口径写进文档：清晰 prompt 零 skill 开销，整体 token 降低 31%（README.md）"
+      ]
+    },
+    {
+      "full_name": "huaguoxingkong/dsh-prompt-rewriter",
+      "stars": 274,
+      "license": "MIT",
+      "url": "https://github.com/huaguoxingkong/dsh-prompt-rewriter",
+      "techniques": [
+        "三套可切换规则版本（legacy / intent-first / workbuddy），规则文件逐字存档、可回退对比，而不是改一版丢一版（README.md、legacy-rules.mjs、intent-first-rules.mjs、workbuddy-rules.mjs）",
+        "六维覆盖：GOAL / INPUTS / SCOPE（含 non-goals）/ METHOD / OUTPUT / QUALITY BAR；任务不需要的维度可省，但执行者会猜的维度必须用文字显式委托（intent-first-rules.mjs）",
+        "硬性禁止反问与留空：「Never ask the user a question, never request confirmation, never list options, never leave a placeholder」；把不确定性写成「由执行者判断并声明所用假设」（intent-first-rules.mjs）",
+        "逐字事实锁：人名、数字、区间、年份、百分比、路径、URL、代码片段、命令、版本号、@文件引用按字符保留，「8-10」不能变成「8 到 10」；可加细节，不可翻译/重排/收窄/删除（intent-first-rules.mjs）",
+        "扩写比例与反注水：稀疏草稿 2-5 倍、硬上限 5 倍；「每一句都必须改变执行者的行为」，禁止 filler、赞美、meta 评论、通用最佳实践（intent-first-rules.mjs）",
+        "UNCHANGED 逃生口：草稿已精确自洽、或根本不是任务时原样返回；但「稀疏草稿永远不算 UNCHANGED」（intent-first-rules.mjs）",
+        "交付前 5 问自检：能否不问就完成？六维是否都写了或显式委托？每条是否只属于本任务？事实是否全部原样？是否在反问/给选项？（intent-first-rules.mjs）",
+        "只改草稿不发送：结果原位落回输入框，Ctrl+Z 撤销，附件与链接原样保留；旧版规则还给出占位符上限 3 个、超出合并为一句「其余细节请补充」（README.md、legacy-rules.mjs）"
+      ]
+    },
+    {
+      "full_name": "Jakeschincariol/promptmaster-skill",
+      "stars": 82,
+      "license": "MIT",
+      "url": "https://github.com/Jakeschincariol/promptmaster-skill",
+      "techniques": [
+        "五步闭环：读锁定决策 → 重写 → 按 35 条 waste pattern 审计 → 打出回执 → 执行（SKILL.md）",
+        "重写必须回答五件事：产出物是什么（要具名：表/脚本/文件）、给谁看、多大、硬约束、done when（SKILL.md）",
+        "信息优先级：先用用户本次已说的，再用锁定决策，最后才用合理默认值；「Never make the user say the same thing twice」（SKILL.md）",
+        "澄清只允许一轮且必须批量、每项带默认值：「One round of questions max. Never drip.」（SKILL.md）",
+        "35 条 credit-waste 反模式，分 6 族：VAGUE ASK / RE-EXPLAINING / OVERFEEDING / UNDERSPECIFIED PROCESS / CONVERSATION CHURN / WRONG TOOL FOR THE TURN，每条含 signal + fix（waste-patterns.json）",
+        "重写不得注水：长度必须「shorter or equal to the raw request plus its missing facts」（SKILL.md）",
+        "回执行（receipt header）：4-5 行显示 rewrote / into / flagged / applied，让用户学会怎么写短而准的 prompt（SKILL.md）",
+        "锁定决策表 decisions.md：跨会话的长期偏好作为 standing order，与新媒体冲突时停下来说明，不私自取舍（SKILL.md）"
+      ]
+    },
+    {
+      "full_name": "geq1fan/prompt-optimizer-skill",
+      "stars": 16,
+      "license": "MIT",
+      "url": "https://github.com/geq1fan/prompt-optimizer-skill",
+      "techniques": [
+        "按任务类型路由模板：planning（步骤/计划/roadmap）/ professional（代码/分析/学术）/ basic（通用），语言检测决定加载 cn 还是 en（skills/SKILL.md）",
+        "优化 → 对抗评审 → 评分 → 迭代 的闭环；评审是独立角色「Critical Logic Analyst」，职责是查缺补漏而不是赞美（templates/cn/evaluation/critical-review.md）",
+        "对抗评审三维度：歧义检测（哪些词不够具体，如「专业一点」是学术还是商业）、边界压力测试（极端/无效输入）、逻辑自洽性（如既要求「极简输出」又要求「详细推理」）（critical-review.md）",
+        "0-100 四维评分：任务表达 / 信息完整性（含项目上下文）/ 格式规范性（含 {{变量}} 保留）/ 改进程度，并给出 90-100…0-59 的分档锚点（templates/cn/evaluation/user.md）",
+        "评审报告反向约束打分：出现严重理解偏差或逻辑冲突时封顶 85 分，「写得漂亮但逻辑不自洽不能给高分」（evaluation/user.md）",
+        "中文模板里三句防跑偏：「你的任务是优化提示词文本本身，而不是回答或执行提示词的内容」「直接输出改进后的提示词，不要对提示词内容进行回应」「不添加用户未提及的新需求」（templates/cn/user-optimize/basic.md）",
+        "占位符保护：{{variable}} 必须逐字保留、不改名不替换成具体值；评审时显式豁免对模板变量的歧义审查（basic.md、critical-review.md）",
+        "上下文嗅探：先判断任务是否依赖项目信息，是则读项目结构/技术栈再优化，让 prompt 自包含（basic.md Workflow）"
+      ]
+    },
+    {
+      "full_name": "linshenkx/prompt-optimizer",
+      "stars": 41458,
+      "license": "AGPL-3.0（GitHub 显示 NOASSERTION）",
+      "url": "https://github.com/linshenkx/prompt-optimizer",
+      "techniques": [
+        "模板库按场景拆分：通用优化 / 上下文分析 / 对话上下文 / 输出格式 / 评估后改写 / 图像 / 变量提取，一个场景一个模板而不是一个万能 prompt（packages/core/src/services/template/default-templates/）",
+        "通用优化模板落到 LangGPT 结构：Role / Profile / Skills / Rules / Workflows / Initialization，并要求「不要携带任何引导词或解释，不要使用代码块包围」（optimize/general-optimize.ts）",
+        "评估与改写分离：先由评估模板给分与改进项，再由 rewrite 模板按评估结果重写，避免一次生成既评又改（evaluation-rewrite/、evaluation/ 目录）",
+        "系统提示词与用户提示词分模板：系统提示走角色结构化，用户提示只补目标、信息与表达，不硬套人设（default-templates/optimize 与 user-optimize）",
+        "占位符条款写进模板末尾：{{variable_name}} 是运行时变量，必须逐字保留、不改名、不删除、不替换成具体值（general-optimize.ts）",
+        "中英成对模板（中文版与 *_en.ts 并列），按语言加载，保证同一技术在中英文下措辞一致（default-templates/ 目录）",
+        "为特定交付物做专用模板：Hermes SOUL.md 模板规定结构、可选标题、文件拆分规则与输出协议，并明说「不是执行用户提出的互动要求」（optimize/soul-hermes-compose.ts）"
+      ]
+    },
+    {
+      "full_name": "langgptai/LangGPT",
+      "stars": 12695,
+      "license": "Apache-2.0",
+      "url": "https://github.com/langgptai/LangGPT",
+      "techniques": [
+        "结构化骨架：Role → Profile（含 Skills）→ Rules → Workflow → Initialization，层级即作用域（一级标题管全局、二级管段落）（Docs/HowToWritestructuredPrompts.md）",
+        "Prompt 工程师元提示词：先按 Role / Background / Attention / Profile / Skills / Goals / Constrains / OutputFormat / Workflow / Suggestions 十个槽位分析，再按 OutputFormat 填充（Docs/HowToWritestructuredPrompts.md 第 311-420 行）",
+        "Attention 槽位用一句情绪动机提升指令遵循（「我总是被老板骂写不出来 Prompt…拜托了」），低成本角色代入（同上）",
+        "输出即源码：要求「输出的 prompt 为可被用户复制的 markdown 源代码格式」，并「避免讨论我发送的内容，不需要回复过多内容」（同上）",
+        "Initialization 收尾公式：「作为<Role>，你必须遵守<Rules>，按<Workflow>执行任务」，在结尾把规则与流程再绑定一次（同上第 414 行）",
+        "承认模板边界：结构化 prompt 依赖基座能力，不能解决幻觉、知识老旧、字数统计不准等问题，别把它当万能药（同上第 422-432 行）"
+      ]
+    },
+    {
+      "full_name": "ndpvt-web/prompt-improver",
+      "stars": 87,
+      "license": "MIT",
+      "url": "https://github.com/ndpvt-web/prompt-improver",
+      "techniques": [
+        "六条改写原则：清晰具体 / 任务分解 / 上下文优化 / 输出规格 / 约束定义 / 迭代钩子（references/framework.md）",
+        "反模式对照表：「make it better」→ 定义质量标准；「do everything」→ 排优先级划范围；「you know what I mean」→ 显式写假设；「ASAP」与情绪化语言 → 改成客观要求（references/anti-patterns.md）",
+        "模糊信号词清单：some / a few / maybe、good / better / nice、whatever works、you decide；范围蔓延信号：also / and while you're at it / everything related to（anti-patterns.md）",
+        "句式级转换：「help me」→「write/explain/fix/analyze [具体对象]」；「improve this」→「optimize for [指标] by [方法]」；隐含信息 → 显式写格式/受众/边界（anti-patterns.md）",
+        "Aristotelian 模式：改写阶段不做推理，而是让交付出去的 prompt 内含 REASONING DIRECTIVE / GIVEN AXIOMS / TASK / METHOD / VERIFICATION 五段，并把已知上下文写成 axiom 防臆造（SKILL.md）",
+        "输出三段式：Analysis（嵌了什么上下文、为什么）/ Improved Prompt / What This Prompt Does（SKILL.md）"
+      ]
+    },
+    {
+      "full_name": "microsoft/PromptWizard",
+      "stars": 4033,
+      "license": "MIT",
+      "url": "https://github.com/microsoft/PromptWizard",
+      "techniques": [
+        "自进化闭环：LLM 生成 → critique → refine，指令与示例一起迭代（README.md）",
+        "两阶段优化：先迭代优化 instruction，再顺序优化 instruction + in-context examples（README.md Stage 1/2）",
+        "指令变异（mutation）多轮 refine，按表现选最优 prompt，而不是一次生成定稿（README.md How it works）",
+        "合成 task-aware 示例：正例、负例、合成例混用，负例用来指导下一轮修正（README.md）",
+        "把自生成的 CoT 步骤嵌进 prompt（README.md features）",
+        "超参可复现：mutate_refine_iterations / mutation_rounds / refine_task_eg_iterations 建议取 3 或 5（README.md）"
+      ]
+    }
+  ],
+  "recommendations": "结论：我们要的是「单轮、不反问、中文进中文出、只翻译不执行」的重写器，所以多数仓库的多轮追问、评分展示、角色人设模板都该砍掉，只留四类技术。\n\n最值得借鉴（按优先级）：\n1) 输出契约先行（dsh-prompt-rewriter 的 intent-first + geq1fan 中文模板 + LangGPT）：三句硬约束——不回答/不执行/不解释；只输出 prompt 正文，不加前言后记；不添加用户未提及的需求。这是「只翻译不执行」的生命线，应该写在 SKILL.md 最前面，而不是藏在末尾。\n2) 逐字事实锁（dsh intent-first）：数字、区间、年份、百分比、路径、URL、代码、命令、版本号原样保留。中文特有风险是「顺手润色」：把「8-10 个」写成「8 到 10 个」、把用户口语改成书面语后语义变窄。建议单列一节「禁改清单」。\n3) 缺失信息用「显式委托」而不是「反问」（dsh 的核心取舍）：我们的场景是单轮交付，反问会打断用户。写法是「由执行者按可见信息自行判断，并用一句话声明所用假设」。仅在缺一个「猜错就全废」的事实时（受众、平台、数量级），在末尾附一行「待确认：X（默认 Y）」，这是 promptmaster「one batched round with defaults」降级成零轮的做法。\n4) 六维检查表（dsh 六维 + LangGPT「没有内容的部分宁可不写」）：目标/输入/范围（含 non-goals）/方法/输出/质量门槛。按需覆盖、不机械补空模块，否则会产出大量「你是一位资深专家」式空话——linshenkx 的 general-optimize 就是反例：任何需求都被塞进 Role/Profile/Skills/Rules，对一次性任务属于过度包装。\n5) 反模式自检（promptmaster 35 条压成中文 10 条）：无产出物、无受众、无长度、无 done-when、hedging（大概/之类/随便）、多个不相关任务混在一起、埋着的约束、无成功标准、「优化一下」无方向、重复上下文。交付前扫一遍，比给用户看评分有用得多。\n6) 门禁 + UNCHANGED（severity1 的零开销直通 + dsh 的逃生口）：清晰需求原样返回，寒暄/非任务也原样返回。把「不改」当成一等公民，否则会把用户已经写好的 prompt 改坏。\n7) 扩写比例 2-5 倍、硬上限 5 倍（dsh）+「不得长于原文加缺失事实」（promptmaster）：中文按信息密度而非字数控制，宁短勿长。\n8) 内部三轮对抗自检（geq1fan 的 critical-review）：歧义 / 边界 / 自洽各问一遍，只改被标出的句子；不向用户展示分数、不做多版本对比，避免花哨。\n\n明确不建议照搬：\n- severity1 的 1-6 轮 AskUserQuestion 追问：依赖 Claude Code 的交互 UI，Hermes 单轮场景会打断用户。它的「先研究再问」思路可留，「问」这个动作要去掉。\n- LangGPT 整套 Role/Profile/Skills 骨架：适合造系统提示词/agent 人设，不适合「把一句话需求翻译成任务 brief」。\n- linshenkx 的模板文本：仓库是 AGPL-3.0（GitHub 标 NOASSERTION），只可借鉴结构与拆分方式，不要整段复制进我们的 skill。\n- PromptWizard 的自动优化流水线：需要数据集与评分器离线跑，不适合在线改写；只借「生成-批评-精修」的循环思路。\n- 评分展示、版本对比、WebView 迭代（geq1fan/linshenkx）：对「有用」没有增益，反而增加一次交互成本。\n\n建议的 SKILL.md 六节结构：① 触发与边界（何时用、何时不用、非任务原样返回）② 判定（清晰直通/模糊重写/非任务原样）③ 重写六维（按需覆盖）④ 保真与禁改清单 ⑤ 输出格式（只输出 prompt，最多附一行变更摘要）⑥ 交付前自检 5 问（能否不问就完成、六维是否覆盖、是否只属于本任务、事实是否原样、是否在反问）。"
+}

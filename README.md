@@ -53,6 +53,8 @@ cp SKILL.md ~/.claude/skills/prompt-translate/
 
 ## 方法论来源
 
+调研报告（含 GitHub/arXiv/文章/HuggingFace 四路完整证据与来源链接）：见 [research.md](research.md)。
+
 借鉴了以下开源技能（未逐字复制，仅吸收方法）：
 
 - `Jupiter363/universal-prompt-optimizer-skill`（MIT）：追问澄清 + 熵止步 + 标准化结构
