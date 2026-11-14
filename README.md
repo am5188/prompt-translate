@@ -1,8 +1,8 @@
 # prompt-translate
 
-把模糊、口语化、不完整的自然语言需求"翻译"成可复制粘贴给任何 AI 客户端（Hermes、Claude Code、Codex、Cursor）执行的结构化 Prompt。
+把模糊、口语化、不完整的自然语言需求"翻译"成可复制粘贴给任何 AI 客户端执行的结构化 Prompt。
 
-Hermes skill，单文件零依赖。翻译工作由 harness 客户端自己的模型完成，不调独立 API。
+单文件 skill，零依赖，遵循 [Agent Skills 开放标准](https://agentskills.io)（`SKILL.md` + `name`/`description` frontmatter）。翻译工作由 harness 客户端自己的模型完成，不调独立 API。
 
 ## 特性
 
@@ -11,19 +11,44 @@ Hermes skill，单文件零依赖。翻译工作由 harness 客户端自己的�
 - 最多 1 轮澄清、每轮 1-3 个问题（只问影响方向的信息，熵达标即止）
 - 按任务类型补全要点（编程/排查/写作/分析/数据处理）
 - 输出单个代码块，复制即用；拿不准的信息标注"暂定假设"，不编造
+- 可指明目标客户端，生成符合其习惯的执行要求
 
-## 安装
+## 跨客户端支持
 
-- **Hermes**（本机已装）：`~/.hermes/skills/productivity/prompt-translate/`
-- **Claude Code**：把 `SKILL.md` 放进 `~/.claude/skills/prompt-translate/`
-- **Codex**：把 `SKILL.md` 放进 `~/.codex/skills/prompt-translate/`
+同一份 `SKILL.md` 适用于所有遵循 Agent Skills 标准的主流客户端：
+
+| 客户端 | 安装目录 | 调用方式 |
+|---|---|---|
+| Hermes | `~/.hermes/skills/productivity/prompt-translate/` | 说"把需求翻译成 prompt"自动触发 |
+| Claude Code | `~/.claude/skills/prompt-translate/` | `/prompt-translate` 或自动触发 |
+| Codex CLI | `~/.codex/skills/`（旧版）或 `~/.agents/skills/`（新版） | `$prompt-translate` 或自动触发 |
+| Gemini CLI | `~/.gemini/skills/`（`.agents/skills` 为别名） | 自动触发 |
+| Cursor | `~/.cursor/skills/` 或 `~/.agents/skills/`；**同时兼容读取 `~/.claude/skills/` 和 `~/.codex/skills/`** | `/prompt-translate` 或自动触发 |
+| ChatGPT 桌面版 | 与 Codex skills 目录共用 | `@prompt-translate` |
+| Trae / OpenClaw 等 | 同名 `SKILL.md`（`name`/`description`）格式 | 自动触发 |
+
+格式兼容要点（已按官方文档验证）：`name` 为小写 kebab-case 且与目录名一致（Cursor 硬性要求）；`description` 单行、含"做什么+何时用"（Gemini CLI 要求 frontmatter 是文件第一段且 description 单行）；frontmatter 仅含通用字段，无平台专属字段。
+
+### 安装
+
+```bash
+# 本机一键安装到所有客户端目录（幂等）
+./install.sh
+
+# 查看各目录安装状态
+./install.sh --list
+
+# 或手动复制到指定客户端
+mkdir -p ~/.claude/skills/prompt-translate
+cp SKILL.md ~/.claude/skills/prompt-translate/
+```
 
 ## 用法
 
-在 harness 客户端里说：
+在任意客户端里说：
 
 - "帮我把这个需求翻译成 prompt：<需求>"
-- "整理成 prompt：<需求>"
+- "整理成 prompt：<需求>，给 Claude Code 用"
 - "我想做个小工具，但不知道怎么描述，帮我写成 prompt"
 
 ## 方法论来源

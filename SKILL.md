@@ -1,12 +1,9 @@
 ---
 name: prompt-translate
 description: "Use when 用户要把模糊需求翻译成可复制 prompt. 只翻译不执行."
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
-metadata:
-  hermes:
-    tags: [prompt, translate, 翻译, 提示词]
 ---
 
 # Prompt 翻译器（模糊需求 → 可复制 Prompt）
@@ -46,6 +43,11 @@ metadata:
    - **验收标准**：怎么算做完、怎么算做好（可验证的具体条件）
 4. **静默自检**（不输出过程）：原意保留？无编造？无范围扩大？代码块内容可直接复制使用？
 5. **输出**：只输出一个代码块，块内是完整 Prompt；有假设时在块内加"暂定假设"小节。不添加前言、客套、评分或改写说明。需要澄清时只输出问题。
+
+## 目标客户端适配
+
+- 用户未指明目标客户端时：生成**客户端无关**的通用中文 Prompt，不假设对方能读文件、联网或调用工具。
+- 用户指明目标客户端（Claude Code / Codex / Cursor / Gemini CLI / ChatGPT 等）时：在"执行要求"里按该客户端习惯写（如文件路径引用、可用命令形式），只调整表达方式，不改变用户意图与任务范围。
 
 ## 任务类型补全要点
 
